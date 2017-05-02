@@ -15,4 +15,5 @@
 -->
 <resources>
     <string name="app_name">Implicit Intents</string>
+    <string name="googleMaps_base">"maps.google.com/?"</string>
 </resources>
