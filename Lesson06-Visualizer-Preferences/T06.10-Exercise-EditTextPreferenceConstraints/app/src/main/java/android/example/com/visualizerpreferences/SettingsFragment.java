@@ -16,6 +16,7 @@ package android.example.com.visualizerpreferences;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ import android.widget.Toast;
 
 // TODO (1) Implement OnPreferenceChangeListener
 public class SettingsFragment extends PreferenceFragmentCompat implements
-        OnSharedPreferenceChangeListener {
+        OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -51,6 +52,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 setPreferenceSummary(p, value);
             }
         }
+
+        Preference preference = findPreference(getString(R.string.pref_size_key));
+        preference.setOnPreferenceChangeListener(this);
         // TODO (3) Add the OnPreferenceChangeListener specifically to the EditTextPreference
     }
 
@@ -92,6 +96,31 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     // to a float; if it cannot, show a helpful error message and return false. If it can be converted
     // to a float check that that float is between 0 (exclusive) and 3 (inclusive). If it isn't, show
     // an error message and return false. If it is a valid number, return true.
+
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        Toast errorToast = Toast.makeText(getContext(), "Select a number between 1 and 3", Toast.LENGTH_SHORT);
+
+        String sizeKey = getString(R.string.pref_size_key);
+        if (preference.getKey().equals(sizeKey)) {
+            String stringSize = ((String) (newValue)).trim();
+            if (stringSize.equals("")) {
+                stringSize = "1";
+            }
+            try {
+                float size = Float.parseFloat(stringSize);
+                if (size > 3 || size < 0) {
+                    errorToast.show();
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                errorToast.show();
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

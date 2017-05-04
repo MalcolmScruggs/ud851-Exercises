@@ -25,6 +25,12 @@
     <!-- Summary for Checkboxes -->
     <string name="pref_show_true">Shown</string>
     <string name="pref_show_false">Hidden</string>
+    
+    <string name="pref_size_default" translatable="false">1</string>
+
+    <string name="pref_size_label">Size  Multiplyer</string>
+
+    <string name="pref_size_key">size</string>
 
 
     <!-- Label for the color preference -->
